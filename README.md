@@ -1,5 +1,5 @@
 # Overview
-This demo tutorial explains how to use MapLibre GL, geo-assist and Calysteau data to create a 3D View.  
+This demo show how to use MapLibre GL, geo-assist and Calysteau data to create a 3D View.  
   
 MapLibre GL JS is a JavaScript library that uses WebGL to render interactive maps from vector tiles and MapLibre styles. It is part of the MapLibre GL ecosystem. (https://github.com/maplibre/maplibre-gl-js)
 
