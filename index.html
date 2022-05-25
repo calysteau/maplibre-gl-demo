@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carcassonne TRI 3D Map - MapLibre GL</title>
+  <script src='https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.js'></script>
+  <link href='https://cdn.maptiler.com/maplibre-gl-js/v2.2.0-pre.2/maplibre-gl.css' rel='stylesheet' />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script type="module">
+  const API_KEY='{YOUR MAPLIBRE API KEY}';
+  const map = new maplibregl.Map({
+    container: 'map',
+    style: `https://api.maptiler.com/maps/winter/style.json?key=${API_KEY}`,
+    center: [2.360293311505917, 43.213003466588056],
+    zoom: 12,
+    maxZoom: 15,
+    pitch: 50,
+    maxPitch: 85
+  });
+
+  map.on('load', () => {
+    map.addSource("terrain", {
+  	"type": "raster-dem",
+  	"url": `https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=${API_KEY}`
+    });
+
+    map.setTerrain({
+      source: "terrain",
+      exaggeration: 1.5
+    });
+
+    map.addSource("aerial-source", {
+        "type": "image",
+        "url": "https://www.calysteau.fr/data/3D/Carcassonne/carcassonne.png",
+        "coordinates": [
+            [2.2113323280000001, 43.1487745550000028],
+            [2.4957775170000001, 43.1487745550000028],
+            [2.4957775170000001, 43.2820436689999966],
+            [2.2113323280000001, 43.2820436689999966]
+        ]
+    });
+
+
+    map.addSource('tri-2020', {
+      type: 'geojson',
+      data: 'https://www.calysteau.fr/data/Georisques2020/n_tri_s.geojson'
+    });
+
+    map.addLayer({
+        "id": "overlay",
+        "source": "aerial-source",
+        "type": "raster",
+        "paint": {
+            "raster-opacity": 0.35
+        }
+    });
+
+    map.addLayer({
+      "id": "tri-overlay",
+      "type": "fill",
+      "source": "tri-2020",
+      "layout": {},
+      "paint": {
+         "fill-color": "#088",
+         "fill-opacity": 0.8
+      }
+    });
+  });
+
+</script>
+</body>
+</html>
